@@ -381,25 +381,52 @@
   }
 
   async function fetchGoals() {
-    // Busca temporadas recentes — suficiente para obter o total acumulado
-    // A API retorna estatísticas por temporada; somamos todas as competições de cada ano.
-    const seasons = [2002,2003,2004,2005,2006,2007,2008,2009,2010,
-                     2011,2012,2013,2014,2015,2016,2017,2018,2019,
-                     2020,2021,2022,2023,2024,2025];
-    let total = 0;
-    for (const season of seasons) {
+    // Usa o endpoint /players/profiles que retorna estatísticas de carreira
+    // consolidadas em uma única chamada — 1 request apenas.
+    // Fallback: se não vier career total, soma as últimas temporadas (2022-2025).
+    try {
+      const r = await fetch(
+        `https://v3.football.api-sports.io/players/profiles?player=${CR7_ID}`,
+        { headers: { 'x-apisports-key': API_KEY } }
+      );
+      const d = await r.json();
+      const stats = d?.response?.[0]?.statistics || [];
+      // Soma todos os gols de todas as competições/temporadas retornadas
+      // deduplificando por season+league para evitar duplicatas
+      const seen = new Set();
+      let total = 0;
+      for (const stat of stats) {
+        const key = `${stat?.league?.id}-${stat?.league?.season}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        total += stat?.goals?.total || 0;
+      }
+      if (total > 500) return total; // valor plausível para carreira do CR7
+    } catch {}
+
+    // Fallback: busca só as 4 temporadas mais recentes (4 requests)
+    // e soma ao FALLBACK das temporadas anteriores já conhecidas
+    const GOALS_PRE_2022 = 801; // gols conhecidos até 2021 (hardcoded, estável)
+    const recentSeasons = [2022, 2023, 2024, 2025];
+    let recent = 0;
+    for (const season of recentSeasons) {
       try {
         const r = await fetch(
           `https://v3.football.api-sports.io/players?id=${CR7_ID}&season=${season}`,
           { headers: { 'x-apisports-key': API_KEY } }
         );
         const d = await r.json();
-        for (const stat of (d?.response?.[0]?.statistics || [])) {
-          total += stat?.goals?.total || 0;
+        const stats = d?.response?.[0]?.statistics || [];
+        const seen = new Set();
+        for (const stat of stats) {
+          const lid = stat?.league?.id;
+          if (lid == null || seen.has(lid)) continue;
+          seen.add(lid);
+          recent += stat?.goals?.total || 0;
         }
       } catch {}
     }
-    return total || null;
+    return recent > 0 ? GOALS_PRE_2022 + recent : null;
   }
 
   function render(goals, dotClass, statusText) {
