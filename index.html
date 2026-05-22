@@ -421,7 +421,7 @@
         seen.add(key);
         total += stat?.goals?.total || 0;
       }
-      if (total > 500) return total; // valor plausível para carreira do CR7
+      if (total > 500) return total + 6; // +6 gols Arab Club Champions Cup 2023 (removidos por Sofascore/Transfermarkt mas válidos)
     } catch {}
 
     // Fallback: busca só as 4 temporadas mais recentes (4 requests)
@@ -446,7 +446,7 @@
         }
       } catch {}
     }
-    return recent > 0 ? GOALS_PRE_2022 + recent : null;
+    return recent > 0 ? GOALS_PRE_2022 + recent + 6 : null; // +6 Arab Club Champions Cup 2023
   }
 
   function render(goals, dotClass, statusText) {
