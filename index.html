@@ -368,7 +368,7 @@
 
   <button class="refresh-btn" id="refresh-btn" onclick="forceRefresh()">↻ forçar atualização</button>
   <div class="siiu" id="siiu">SIUUUU</div>
-  <div style="position:fixed;bottom:0.6rem;right:0.8rem;font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;letter-spacing:0.15em;color:#1e1e1e;user-select:none;">v1.1.0</div>
+  <div style="position:fixed;bottom:0.6rem;right:0.8rem;font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;letter-spacing:0.15em;color:#1e1e1e;user-select:none;">v1.1.1</div>
 
 </div>
 <script>
@@ -376,7 +376,7 @@
   const API_KEY    = '3f7ca5a9b548ed5796bf2e0c394a93ef';
   const CR7_ID     = 874;
   const TARGET     = 1000;
-  const FALLBACK   = 973;
+  const FALLBACK   = 973;  // olympics.com 22/05/2026
   const CACHE_KEY  = 'cr7_goals_cache';
   const CACHE_MINS = 16;       // 16 min = ~90 req/dia (limite free: 100)
   // ────────────────────────────────────────────────────────────
@@ -421,7 +421,7 @@
         seen.add(key);
         total += stat?.goals?.total || 0;
       }
-      if (total > 500) return total + 7; // +7 gols Arab Club Champions Cup 2023 (removidos por Sofascore/Transfermarkt mas válidos)
+      if (total > 500) return total + 7; // +6 gols Arab Club Champions Cup 2023 (removidos por Sofascore/Transfermarkt mas válidos)
     } catch {}
 
     // Fallback: busca só as 4 temporadas mais recentes (4 requests)
@@ -446,7 +446,7 @@
         }
       } catch {}
     }
-    return recent > 0 ? GOALS_PRE_2022 + recent + 6 : null; // +6 Arab Club Champions Cup 2023
+    return recent > 0 ? GOALS_PRE_2022 + recent + 7 : null; // +6 Arab Club Champions Cup 2023
   }
 
   function render(goals, dotClass, statusText) {
@@ -555,8 +555,8 @@
       left: 50%;
       transform: translateX(-50%);
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 0.85rem;
-      letter-spacing: 0.5em;
+      font-size: 1rem;
+      letter-spacing: 0.6em;
       color: #D40000;
       pointer-events: none;
       z-index: 9999;
@@ -565,8 +565,8 @@
     `;
     document.body.appendChild(clone);
     requestAnimationFrame(() => {
-      clone.style.fontSize = '2.5rem';
-      clone.style.letterSpacing = '1em';
+      clone.style.fontSize = '5rem';
+      clone.style.letterSpacing = '1.2em';
     });
     setTimeout(() => { clone.style.opacity = '0'; }, 800);
     setTimeout(() => { clone.remove(); }, 1300);
