@@ -30,9 +30,9 @@
   :root {
     --red: #D40000;
     --gold: #C9A84C;
-    --dark: #0A0A0A;
-    --light: #F5F0E8;
-    --muted: #555;
+    --dark: #111111;
+    --light: #FFFFFF;
+    --muted: #AAAAAA;
   }
 
   html, body {
@@ -84,12 +84,14 @@
 
   .cr7-label {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(1rem, 3vw, 1.4rem);
-    letter-spacing: 0.5em;
+    font-size: clamp(2rem, 6vw, 4rem);
+    letter-spacing: 0.25em;
     color: var(--gold);
-    opacity: 0.85;
+    opacity: 1;
     display: block;
     margin-bottom: 0.3rem;
+    text-shadow: 0 0 40px rgba(201,168,76,0.5);
+    line-height: 1;
   }
 
   .title {
@@ -122,7 +124,7 @@
 
   .goals-box.current .goals-number {
     color: var(--light);
-    text-shadow: 0 0 60px rgba(201,168,76,0.2);
+    text-shadow: 0 2px 20px rgba(0,0,0,0.8), 0 0 60px rgba(201,168,76,0.25);
   }
 
   .goals-box.target .goals-number {
@@ -135,7 +137,7 @@
     letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--muted);
-    font-weight: 300;
+    font-weight: 400;
     margin-top: -0.5rem;
   }
 
@@ -172,7 +174,7 @@
     justify-content: space-between;
     font-size: 0.8rem;
     letter-spacing: 0.2em;
-    color: var(--muted);
+    color: #CCCCCC;
     margin-bottom: 0.6rem;
     text-transform: uppercase;
   }
@@ -233,7 +235,7 @@
     font-size: clamp(3.5rem, 12vw, 8rem);
     line-height: 1;
     color: var(--gold);
-    text-shadow: 0 0 40px rgba(201,168,76,0.25);
+    text-shadow: 0 2px 20px rgba(0,0,0,0.8), 0 0 50px rgba(201,168,76,0.4);
     display: block;
   }
 
@@ -241,8 +243,8 @@
     font-size: clamp(0.7rem, 1.8vw, 0.9rem);
     letter-spacing: 0.4em;
     text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 300;
+    color: #CCCCCC;
+    font-weight: 400;
   }
 
   .cache-badge {
@@ -252,7 +254,7 @@
     font-size: 0.68rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: #BBBBBB;
     margin-bottom: 0.4rem;
     animation: fadeUp 0.9s 0.8s ease both;
   }
@@ -305,7 +307,7 @@
       padding-top: 3rem;
     }
     .header { margin-bottom: 1.5rem; }
-    .cr7-label { font-size: 0.8rem; letter-spacing: 0.35em; }
+    .cr7-label { font-size: clamp(1.6rem, 8vw, 2.5rem); letter-spacing: 0.15em; }
     .title { font-size: clamp(2.2rem, 14vw, 3.5rem); }
     .countdown-block { gap: 0.5rem; margin-bottom: 1.5rem; }
     .goals-number { font-size: clamp(3.8rem, 22vw, 5.5rem); }
@@ -367,7 +369,7 @@
   </div>
 
   <div class="siiu" id="siiu">SIUUUU</div>
-  <div style="position:fixed;bottom:0.6rem;right:0.8rem;font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;letter-spacing:0.15em;color:#1e1e1e;user-select:none;">v1.2.1</div>
+  <div style="position:fixed;bottom:0.6rem;right:0.8rem;font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;letter-spacing:0.15em;color:#1e1e1e;user-select:none;">v1.2.6</div>
 
 </div>
 <script>
