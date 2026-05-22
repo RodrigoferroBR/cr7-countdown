@@ -284,6 +284,24 @@
 
   .siiu:hover { color: var(--red); }
 
+  .refresh-btn {
+    background: none;
+    border: 1px solid #222;
+    color: #333;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    cursor: pointer;
+    margin-top: 0.4rem;
+    transition: border-color 0.3s, color 0.3s;
+    animation: fadeUp 0.9s 1.1s ease both;
+    opacity: 0;
+  }
+  .refresh-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .refresh-btn.spinning { color: var(--red); border-color: var(--red); }
+
   @keyframes fadeDown {
     from { opacity: 0; transform: translateY(-20px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -348,7 +366,9 @@
     <span id="cache-status">carregando…</span>
   </div>
 
+  <button class="refresh-btn" id="refresh-btn" onclick="forceRefresh()">↻ forçar atualização</button>
   <div class="siiu" id="siiu">SIUUUU</div>
+  <div style="position:fixed;bottom:0.6rem;right:0.8rem;font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;letter-spacing:0.15em;color:#1e1e1e;user-select:none;">v1.0.137</div>
 
 </div>
 <script>
@@ -467,6 +487,19 @@
     } catch {
       render(FALLBACK, 'error', 'api indisponível · valor estimado');
     }
+  }
+
+  function forceRefresh() {
+    const btn = document.getElementById('refresh-btn');
+    btn.textContent = '↻ buscando…';
+    btn.classList.add('spinning');
+    btn.disabled = true;
+    try { localStorage.removeItem(CACHE_KEY); } catch {}
+    init().finally(() => {
+      btn.textContent = '↻ forçar atualização';
+      btn.classList.remove('spinning');
+      btn.disabled = false;
+    });
   }
 
   init();
