@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CR7 — Countdown aos 1000 Gols</title>
+
+<!-- SEO & compartilhamento -->
+<meta name="description" content="Acompanhe em tempo real quantos gols faltam para Cristiano Ronaldo chegar aos 1000 gols oficiais na carreira.">
+<meta name="author" content="rodrigoferrobr">
+<meta name="theme-color" content="#0A0A0A">
+
+<!-- Open Graph (WhatsApp, Facebook, LinkedIn) -->
+<meta property="og:title" content="CR7 — Countdown aos 1000 Gols">
+<meta property="og:description" content="Quantos gols faltam para CR7 chegar aos 1000? Acompanhe ao vivo.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rodrigoferrobr.github.io/cr7-countdown/">
+
+<!-- Twitter/X -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CR7 — Countdown aos 1000 Gols">
+<meta name="twitter:description" content="Quantos gols faltam para CR7 chegar aos 1000? Acompanhe ao vivo.">
+
+<!-- Favicon emoji -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #D40000;
+    --gold: #C9A84C;
+    --dark: #0A0A0A;
+    --light: #F5F0E8;
+    --muted: #555;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--dark);
+    color: var(--light);
+    font-family: 'Barlow Condensed', sans-serif;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -30%;
+    right: -10%;
+    width: 50vw;
+    height: 120vh;
+    background: linear-gradient(135deg, transparent 40%, rgba(212,0,0,0.06) 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .cr7-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    opacity: 0.85;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.6rem, 9vw, 7rem);
+    line-height: 0.9;
+    color: var(--light);
+  }
+
+  .title span { color: var(--red); }
+
+  .countdown-block {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 4vw, 3rem);
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.9s 0.2s ease both;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .goals-box { text-align: center; }
+
+  .goals-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4.5rem, 20vw, 14rem);
+    line-height: 1;
+    display: block;
+  }
+
+  .goals-box.current .goals-number {
+    color: var(--light);
+    text-shadow: 0 0 60px rgba(201,168,76,0.2);
+  }
+
+  .goals-box.target .goals-number {
+    color: var(--red);
+    animation: pulse-red 3s ease-in-out infinite;
+  }
+
+  .goals-sub {
+    font-size: clamp(0.75rem, 2vw, 1rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 300;
+    margin-top: -0.5rem;
+  }
+
+  .separator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0.3;
+  }
+
+  .separator-line {
+    width: 1px;
+    height: clamp(40px, 8vw, 80px);
+    background: var(--gold);
+  }
+
+  .separator-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+
+  .progress-section {
+    width: 100%;
+    max-width: 600px;
+    animation: fadeUp 0.9s 0.4s ease both;
+    margin-bottom: 2.5rem;
+  }
+
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+  }
+
+  .progress-bar-track {
+    width: 100%;
+    height: 6px;
+    background: #1e1e1e;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--red));
+    width: 0%;
+    transition: width 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+
+  .progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--red);
+    box-shadow: 0 0 10px var(--red);
+  }
+
+  .remaining-block {
+    text-align: center;
+    animation: fadeUp 0.9s 0.6s ease both;
+    margin-bottom: 2rem;
+    padding: 1.5rem 3rem;
+    border: 1px solid rgba(201,168,76,0.15);
+    position: relative;
+  }
+
+  .remaining-block::before,
+  .remaining-block::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  .remaining-block::before { top: -3px; left: -3px; }
+  .remaining-block::after  { bottom: -3px; right: -3px; }
+
+  .remaining-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 12vw, 8rem);
+    line-height: 1;
+    color: var(--gold);
+    text-shadow: 0 0 40px rgba(201,168,76,0.25);
+    display: block;
+  }
+
+  .remaining-label {
+    font-size: clamp(0.7rem, 1.8vw, 0.9rem);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .cache-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+    animation: fadeUp 0.9s 0.8s ease both;
+  }
+
+  .cache-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--muted);
+    flex-shrink: 0;
+    transition: background 0.4s, box-shadow 0.4s;
+  }
+
+  .cache-dot.live   { background: #4caf50; box-shadow: 0 0 6px #4caf50; }
+  .cache-dot.cached { background: var(--gold); }
+  .cache-dot.error  { background: var(--red); }
+
+  .siiu {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.5em;
+    color: #1e1e1e;
+    transition: color 0.4s, font-size 0.4s, letter-spacing 0.4s;
+    cursor: default;
+    user-select: none;
+    margin-top: 0.3rem;
+    animation: fadeUp 0.9s 1s ease both;
+  }
+
+  .siiu:hover { color: var(--red); }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse-red {
+    0%,100% { text-shadow: 0 0 40px rgba(212,0,0,0.2); }
+    50%     { text-shadow: 0 0 100px rgba(212,0,0,0.5); }
+  }
+
+  @media (max-width: 480px) {
+    .remaining-block { padding: 1rem 1.5rem; }
+    .countdown-block { gap: 0.8rem; }
+    .separator-line  { height: 30px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <span class="cr7-label">Cristiano Ronaldo</span>
+    <div class="title">RUMO AOS<br><span>MIL GOLS</span></div>
+  </div>
+
+  <div class="countdown-block">
+    <div class="goals-box current">
+      <span class="goals-number" id="current-goals">—</span>
+      <div class="goals-sub">Gols oficiais</div>
+    </div>
+    <div class="separator">
+      <div class="separator-line"></div>
+      <div class="separator-label">DE</div>
+      <div class="separator-line"></div>
+    </div>
+    <div class="goals-box target">
+      <span class="goals-number">1000</span>
+      <div class="goals-sub">A meta histórica</div>
+    </div>
+  </div>
+
+  <div class="progress-section">
+    <div class="progress-labels">
+      <span>Progresso</span>
+      <span id="pct-label">—</span>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <div class="remaining-block">
+    <span class="remaining-number" id="remaining">—</span>
+    <div class="remaining-label">Gols restantes para a história</div>
+  </div>
+
+  <div class="cache-badge">
+    <span class="cache-dot" id="cache-dot"></span>
+    <span id="cache-status">carregando…</span>
+  </div>
+
+  <div class="siiu" id="siiu">SIUUUU</div>
+
+</div>
+<script>
+  // ── CONFIG ──────────────────────────────────────────────────
+  const API_KEY    = '3f7ca5a9b548ed5796bf2e0c394a93ef';
+  const CR7_ID     = 874;
+  const TARGET     = 1000;
+  const FALLBACK   = 973;
+  const CACHE_KEY  = 'cr7_goals_cache';
+  const CACHE_MINS = 16;       // 16 min = ~90 req/dia (limite free: 100)
+  // ────────────────────────────────────────────────────────────
+
+  function cacheRead() {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      const obj = JSON.parse(raw);
+      if ((Date.now() - obj.ts) > CACHE_MINS * 60 * 1000) return null;
+      return obj;
+    } catch { return null; }
+  }
+
+  function cacheWrite(goals) {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({
+        goals, ts: Date.now(),
+        expiresAt: Date.now() + CACHE_MINS * 60 * 1000
+      }));
+    } catch {}
+  }
+
+  async function fetchGoals() {
+    // Busca temporadas recentes — suficiente para obter o total acumulado
+    // A API retorna estatísticas por temporada; somamos todas as competições de cada ano.
+    const seasons = [2002,2003,2004,2005,2006,2007,2008,2009,2010,
+                     2011,2012,2013,2014,2015,2016,2017,2018,2019,
+                     2020,2021,2022,2023,2024,2025];
+    let total = 0;
+    for (const season of seasons) {
+      try {
+        const r = await fetch(
+          `https://v3.football.api-sports.io/players?id=${CR7_ID}&season=${season}`,
+          { headers: { 'x-apisports-key': API_KEY } }
+        );
+        const d = await r.json();
+        for (const stat of (d?.response?.[0]?.statistics || [])) {
+          total += stat?.goals?.total || 0;
+        }
+      } catch {}
+    }
+    return total || null;
+  }
+
+  function render(goals, dotClass, statusText) {
+    const remaining = Math.max(0, TARGET - goals);
+    const pct       = Math.min(100, (goals / TARGET) * 100).toFixed(1);
+
+    document.getElementById('current-goals').textContent = goals.toLocaleString('pt-BR');
+    document.getElementById('remaining').textContent     = remaining;
+    document.getElementById('pct-label').textContent     = pct + '%';
+
+    setTimeout(() => {
+      document.getElementById('progress-fill').style.width = pct + '%';
+    }, 300);
+
+    document.getElementById('cache-dot').className    = 'cache-dot ' + dotClass;
+    document.getElementById('cache-status').textContent = statusText;
+  }
+
+  async function init() {
+    const cached = cacheRead();
+    if (cached) {
+      const nextStr = new Date(cached.expiresAt)
+        .toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      render(cached.goals, 'cached', 'cache válido · refresh às ' + nextStr);
+      return;
+    }
+
+    try {
+      const goals = await fetchGoals();
+      if (goals) {
+        cacheWrite(goals);
+        const nextStr = new Date(Date.now() + CACHE_MINS * 60 * 1000)
+          .toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        render(goals, 'live', 'atualizado agora · próximo às ' + nextStr);
+      } else {
+        render(FALLBACK, 'error', 'api indisponível · valor estimado');
+      }
+    } catch {
+      render(FALLBACK, 'error', 'api indisponível · valor estimado');
+    }
+  }
+
+  init();
+
+  // ── SIUUU ────────────────────────────────────────────────────
+  function playSiuuu() {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    function note(freq, t, dur, type='sine', vol=0.35) {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type = type;
+      o.frequency.setValueAtTime(freq, ctx.currentTime + t);
+      g.gain.setValueAtTime(0, ctx.currentTime + t);
+      g.gain.linearRampToValueAtTime(vol, ctx.currentTime + t + 0.04);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + dur);
+      o.start(ctx.currentTime + t);
+      o.stop(ctx.currentTime + t + dur + 0.05);
+    }
+    function vowel(f,t,d) {
+      note(f,t,d,'sawtooth',0.18); note(f*2,t,d,'sawtooth',0.07);
+      note(f*3,t,d,'sine',0.05);  note(f*.5,t,d,'sine',0.12);
+    }
+    vowel(420, 0, 0.18);
+    const o2=ctx.createOscillator(), g2=ctx.createGain();
+    o2.connect(g2); g2.connect(ctx.destination); o2.type='sawtooth';
+    o2.frequency.setValueAtTime(420, ctx.currentTime+0.18);
+    o2.frequency.exponentialRampToValueAtTime(180, ctx.currentTime+0.45);
+    g2.gain.setValueAtTime(0.18,ctx.currentTime+0.18);
+    g2.gain.linearRampToValueAtTime(0.22,ctx.currentTime+0.25);
+    g2.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.55);
+    o2.start(ctx.currentTime+0.18); o2.stop(ctx.currentTime+0.6);
+    const o3=ctx.createOscillator(), g3=ctx.createGain();
+    o3.connect(g3); g3.connect(ctx.destination); o3.type='sawtooth';
+    o3.frequency.setValueAtTime(195,ctx.currentTime+0.45);
+    o3.frequency.exponentialRampToValueAtTime(110,ctx.currentTime+1.6);
+    g3.gain.setValueAtTime(0.22,ctx.currentTime+0.45);
+    g3.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+1.7);
+    o3.start(ctx.currentTime+0.45); o3.stop(ctx.currentTime+1.75);
+    note(98,0.45,1.2,'sine',0.1);
+  }
+
+  const numEl = document.getElementById('current-goals');
+  const siiu  = document.getElementById('siiu');
+  numEl.style.cursor = 'pointer';
+  numEl.addEventListener('click', () => {
+    playSiuuu();
+    siiu.style.color = '#D40000';
+    siiu.style.fontSize = '2rem';
+    siiu.style.letterSpacing = '0.8em';
+    setTimeout(() => {
+      siiu.style.color = siiu.style.fontSize = siiu.style.letterSpacing = '';
+    }, 1200);
+  });
+</script>
+</body>
+</html>
