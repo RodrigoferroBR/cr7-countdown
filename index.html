@@ -368,7 +368,7 @@
 
   <button class="refresh-btn" id="refresh-btn" onclick="forceRefresh()">↻ forçar atualização</button>
   <div class="siiu" id="siiu">SIUUUU</div>
-  <div style="position:fixed;bottom:0.6rem;right:0.8rem;font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;letter-spacing:0.15em;color:#1e1e1e;user-select:none;">v1.0.137</div>
+  <div style="position:fixed;bottom:0.6rem;right:0.8rem;font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;letter-spacing:0.15em;color:#1e1e1e;user-select:none;">v1.0.138</div>
 
 </div>
 <script>
@@ -546,12 +546,30 @@
   numEl.style.cursor = 'pointer';
   numEl.addEventListener('click', () => {
     playSiuuu();
-    siiu.style.color = '#D40000';
-    siiu.style.fontSize = '2rem';
-    siiu.style.letterSpacing = '0.8em';
-    setTimeout(() => {
-      siiu.style.color = siiu.style.fontSize = siiu.style.letterSpacing = '';
-    }, 1200);
+    // Anima um clone fixo — nunca afeta o layout
+    const clone = document.createElement('div');
+    clone.textContent = 'SIUUUU';
+    clone.style.cssText = `
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.5em;
+      color: #D40000;
+      pointer-events: none;
+      z-index: 9999;
+      white-space: nowrap;
+      transition: font-size 0.3s ease, letter-spacing 0.3s ease, opacity 0.4s ease;
+    `;
+    document.body.appendChild(clone);
+    requestAnimationFrame(() => {
+      clone.style.fontSize = '2.5rem';
+      clone.style.letterSpacing = '1em';
+    });
+    setTimeout(() => { clone.style.opacity = '0'; }, 800);
+    setTimeout(() => { clone.remove(); }, 1300);
   });
 </script>
 </body>
